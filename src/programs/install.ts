@@ -9,6 +9,10 @@ program
   .option('-l, --local')
   .option('-m, --mainnet')
   .action(async (options) => {
+    if (!options.username) {
+      console.error('Username is required. Use the -u or --username option.');
+      return;
+    }
     const isDfxInstalled = Tools.checkAndInstallDfx();
     if (!isDfxInstalled) {
       installDfx();
