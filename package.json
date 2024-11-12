@@ -20,7 +20,7 @@
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",
     "coverage": "yarn node --experimental-vm-modules $(yarn bin jest) --coverage jest --testPathPattern=unit",
-    "prepare": "husky install",
+    "postinstall": "husky install",
     "start": "node dist/index.js"
   },
   "lint-staged": {
@@ -41,6 +41,7 @@
     "@types/shelljs": "^0.8.15",
     "eslint": "^9.14.0",
     "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.1.6",
     "prettier": "^3.3.3"
   }
 }
