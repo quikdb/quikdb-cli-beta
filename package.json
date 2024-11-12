@@ -1,0 +1,46 @@
+{
+  "name": "quikdb-cli-beta",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/quikdb/quikdb-cli-beta.git",
+  "author": "samsonajulor <samsonajulor@gmail.com>",
+  "license": "MIT",
+  "bin": {
+    "quikdb": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "lnk": "yarn unlink && yarn link",
+    "test": "npm run test:unit",
+    "test:single": "yarn node --experimental-vm-modules $(yarn bin jest) $1",
+    "test:unit": "yarn node --experimental-vm-modules $(yarn bin jest) --testPathPattern=unit",
+    "test:integ": "yarn node --experimental-vm-modules $(yarn bin jest) --testPathPattern=integ",
+    "push": "bash ./scripts/git_push.sh",
+    "lint": "prettier --check .",
+    "lint:fix": "prettier --write .",
+    "coverage": "yarn node --experimental-vm-modules $(yarn bin jest) --coverage jest --testPathPattern=unit",
+    "prepare": "husky install",
+    "start": "node dist/index.js"
+  },
+  "lint-staged": {
+    "*.{js,ts,json,md,yaml,sh}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@types/node": "^22.9.0",
+    "axios": "^1.7.7",
+    "commander": "^12.1.0",
+    "shelljs": "^0.8.5",
+    "simple-git": "^3.27.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "@types/shelljs": "^0.8.15",
+    "eslint": "^9.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3"
+  }
+}
