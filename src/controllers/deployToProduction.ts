@@ -1,5 +1,4 @@
 import shell from 'shelljs';
-import { sendDeploymentToServer } from '../http';
 
 export async function deployToProduction(canisterName: string) {
   console.log(`Deploying ${canisterName} to the IC network...`);
@@ -20,5 +19,4 @@ export async function deployToProduction(canisterName: string) {
 
   const canisterId = canisterIdResult.stdout.trim();
   console.log(`Canister created with ID: ${canisterId}`);
-  await sendDeploymentToServer(canisterId, canisterName, 'IC Network');
 }

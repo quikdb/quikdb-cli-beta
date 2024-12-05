@@ -1,2 +1,1 @@
-export * from './sendPrincipalToServer';
-export * from './sendDeploymentToServer';
+export * from './authenticateCli';

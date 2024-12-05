@@ -1,5 +1,4 @@
 import shell from 'shelljs';
-import { sendPrincipalToServer } from '../http';
 
 export async function createPrincipal(username: string) {
   if (!shell.which('dfx')) {
@@ -11,7 +10,7 @@ export async function createPrincipal(username: string) {
   const result = shell.exec(`dfx identity new ${username}`);
 
   if (result.code !== 0) {
-    console.error('Error creating principal.');
+    console.error('error creating identity');
     return { status: false };
   }
 
@@ -22,18 +21,6 @@ export async function createPrincipal(username: string) {
     console.error('Error extracting seed phrase.');
     return { status: false };
   }
-
-  const principalIdResult = shell.exec('dfx identity get-principal', { silent: true });
-
-  if (principalIdResult.code !== 0) {
-    console.error('Error retrieving principal ID.');
-    return { status: false };
-  }
-
-  const principalId = principalIdResult.stdout.trim();
-  console.log(`Principal created with ID: ${principalId}`);
-
-  await sendPrincipalToServer(principalId, username, seedPhrase);
   
-  return { status: false, data: principalId };
+  return { status: true, data: seedPhrase };
 }

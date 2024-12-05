@@ -2,7 +2,10 @@
   "name": "quikdb-cli-beta",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/quikdb/quikdb-cli-beta.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quikdb/quikdb-cli-beta.git"
+  },
   "author": "samsonajulor <samsonajulor@gmail.com>",
   "license": "MIT",
   "bin": {
@@ -24,14 +27,18 @@
     "start": "node dist/index.js"
   },
   "lint-staged": {
-    "*.{js,ts,json,md,yaml,sh}": [
+    "*.{js,ts,json,md,yaml}": [
       "prettier --write"
     ]
   },
   "dependencies": {
+    "@dfinity/agent": "^2.1.3",
     "@types/node": "^22.9.0",
+    "@types/readline-sync": "^1.4.8",
     "axios": "^1.7.7",
     "commander": "^12.1.0",
+    "email-validator": "^2.0.4",
+    "readline-sync": "^1.4.10",
     "shelljs": "^0.8.5",
     "simple-git": "^3.27.0",
     "ts-node": "^10.9.2",
