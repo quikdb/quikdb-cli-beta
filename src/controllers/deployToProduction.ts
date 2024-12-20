@@ -1,17 +1,16 @@
 import shell from 'shelljs';
+import { production } from '../utils';
 
 export async function deployToProduction(canisterName: string) {
   console.log(`Deploying ${canisterName} to the IC network...`);
 
-  const buildResult = shell.exec(`dfx build`);
+  const buildResult = shell.exec(`dfx build`, { silent: production });
 
   if (buildResult.code !== 0) {
     console.error('Error building code.');
     return;
   }
-  const canisterIdResult = shell.exec(`dfx deploy --network ic`);
-
-  console.log({ canisterIdResult });
+  const canisterIdResult = shell.exec(`dfx deploy --network ic`, { silent: production });
 
   if (canisterIdResult.code !== 0) {
     console.error('Error retrieving canister ID.');

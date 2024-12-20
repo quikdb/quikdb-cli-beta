@@ -1,4 +1,5 @@
 import shell from 'shelljs';
+import { production } from '../utils';
 
 export async function createPrincipal(username: string) {
   if (!shell.which('dfx')) {
@@ -7,7 +8,7 @@ export async function createPrincipal(username: string) {
   }
 
   console.log('Creating new principal...');
-  const result = shell.exec(`dfx identity new ${username}`);
+  const result = shell.exec(`dfx identity new ${username}`, { silent: production });
 
   if (result.code !== 0) {
     console.error('error creating identity');
@@ -22,5 +23,5 @@ export async function createPrincipal(username: string) {
     return { status: false };
   }
   
-  return { status: true, data: seedPhrase };
+  return { status: true, seedPhrase };
 }

@@ -2,43 +2,45 @@ import * as fs from 'fs';
 import * as path from 'path';
 import shell from 'shelljs';
 import * as readlineSync from 'readline-sync';
-import { Tools } from '../utils';
+import { production, Tools } from '../utils';
 import { program } from './init';
-import { AuthenticationRequestType, sampleAuthRequest } from '../@types';
-import { authenticatePrincipal, createPrincipal, deployToLocal, getPrincipal, installDfx } from '../controllers';
-import { authenticateCli } from '../http';
+import { AuthenticationRequestType, sampleAuthForIIRequest, sampleAuthRequest } from '../@types';
+import { authenticatePrincipal, deployToLocal, getPrincipal, installDfx } from '../controllers';
+import { authenticateCli, encryptUserData, uploadProjectCode } from '../http';
 
 program
   .command('install')
   .description('Checks if quikdb is installed, installs it if necessary')
   .action(async (options) => {
     let principalId: string;
-    const password = readlineSync.question('Please enter your account password: ');
-    if (!password) {
-      console.error('Token is required to proceed.');
-      return;
-    }
+    let password: string;
+
     if (fs.existsSync(Tools.CONFIG_FILE)) {
       const configData = fs.readFileSync(Tools.CONFIG_FILE, 'utf-8');
       console.log('Current Configuration:');
 
       const configJson = Tools.getConfigAsJson(configData);
-      (configJson as AuthenticationRequestType).password = password;
 
-      console.log({ configJson });
+      const identity = (configJson as AuthenticationRequestType)?.identity;
 
       const username = (configJson as AuthenticationRequestType).username;
+
+      const projectTokenRef = (configJson as AuthenticationRequestType)?.projectTokenRef;
+
+      if (!identity) {
+        password = readlineSync.question('Please enter your account password: ');
+
+        if (!password) {
+          console.error('password is required to proceed.');
+          return;
+        }
+
+        (configJson as AuthenticationRequestType).password = password;
+      }
 
       const isDfxInstalled = Tools.checkAndInstallDfx();
       if (!isDfxInstalled) {
         installDfx();
-      }
-
-      const createPrincipalResponse = await createPrincipal(username);
-
-      if(!createPrincipalResponse.status) {
-        console.info('installation failed. please try with a different username')
-        return;
       }
 
       const principal = await getPrincipal(username);
@@ -46,24 +48,39 @@ program
         console.error('Failed to retrieve principal ID.');
         return;
       }
-      principalId = principal?.data as string;
 
-      (configJson as AuthenticationRequestType).principalId = principalId;
+      principalId = principal.data?.principalId as string;
+
+      if (!identity) (configJson as AuthenticationRequestType).principalId = principalId;
+
       console.log({ configJson });
 
-      const validConfigJson = Tools.hasProperties<AuthenticationRequestType>(
-        configJson,
-        Object.keys(sampleAuthRequest) as [keyof AuthenticationRequestType]
-      );
+      /************* validating config json ************/
+      if (identity) {
+        const validConfigJson = Tools.hasProperties<AuthenticationRequestType>(
+          configJson,
+          Object.keys(sampleAuthForIIRequest) as [keyof AuthenticationRequestType]
+        );
 
-      if (!validConfigJson) {
-        console.error('Invalid configuration data. Please run "quikdb config".');
-        return;
+        if (!validConfigJson) {
+          console.error('Invalid configuration data. Please run "quikdb config".');
+          return;
+        }
+        console.log('configuration data is valid for ii');
+      } else {
+        const validConfigJson = Tools.hasProperties<AuthenticationRequestType>(
+          configJson,
+          Object.keys(sampleAuthRequest) as [keyof AuthenticationRequestType]
+        );
+
+        if (!validConfigJson) {
+          console.error('Invalid configuration data. Please run "quikdb config".');
+          return;
+        }
+        console.log('configuration data is valid.');
       }
 
       const auth = await authenticateCli(configJson as AuthenticationRequestType);
-
-      console.log({ auth: auth.data });
 
       if (!auth.status) {
         console.error('Failed to authenticate with the server.');
@@ -74,14 +91,19 @@ program
 
       if (!principalAuth) return;
 
-      createPrincipalResponse.status && Tools.appendToConfigFile(
-        'seedPhrase',
-        createPrincipalResponse.data as string,
+      principal.data?.seedPhrase &&
+        Tools.appendToConfigFile(
+          'seedPhrase',
+          principal.data?.seedPhrase as string,
+          path.join(Tools.CONFIG_DIR, 'accessTokens')
+        );
+      Tools.appendToConfigFile(
+        'accessToken',
+        auth.data?.data?.accessToken,
         path.join(Tools.CONFIG_DIR, 'accessTokens')
       );
-      Tools.appendToConfigFile('accessToken', auth.data?.data?.accessToken, path.join(Tools.CONFIG_DIR, 'accessTokens'));
 
-      shell.exec('rm -rf temp');
+      shell.exec('rm -rf temp', { silent: production });
 
       await Tools.fetchCode('https://github.com/quikdb/quikdb-app-beta', 'temp/quikdb');
 
@@ -90,7 +112,41 @@ program
         return;
       }
 
-      deployToLocal(principalId);
+      const canisterUrl = deployToLocal(principalId);
+
+      if (!canisterUrl) {
+        return;
+      }
+
+      const payload = JSON.stringify({
+        id: auth.data.data.projectId,
+      });
+
+      const encryptionResponse  = await encryptUserData(payload, projectTokenRef);
+
+      console.log({ encryptionResponse: encryptionResponse.data.encryptedData });
+
+      const projectId = encryptionResponse.data.encryptedData;
+      const token = auth.data?.data?.accessToken;
+
+      shell.cd('../')
+
+      const folderToZip = 'quikdb';
+      const zipFileName = 'dist.zip';  
+
+      const zipCommand = `zip -r ${zipFileName} ${folderToZip}`;
+
+      const result = shell.exec(zipCommand, { silent: production });
+
+      if (result.code === 0) {
+        console.log(`Folder successfully zipped to ${zipFileName}`);
+      } else {
+        console.error('Error zipping folder:', result.stderr);
+      }
+
+      const filePath = path.join(__dirname, '../../temp/dist.zip');
+
+      await uploadProjectCode(projectId, token, filePath);
     } else {
       console.log('No configuration file found.');
     }

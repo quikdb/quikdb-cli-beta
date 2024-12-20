@@ -1,7 +1,6 @@
 import axios from "axios";
 import { AuthenticationRequestType } from '../@types';
-
-const SERVER_URL = 'https://quikdb-core-beta.onrender.com';
+import { SERVER_URL } from '../utils';
 
 export async function authenticateCli(authenticationRequest: AuthenticationRequestType) {
   try {
@@ -9,13 +8,15 @@ export async function authenticateCli(authenticationRequest: AuthenticationReque
     const response = await axios.post(`${SERVER_URL}/a/signinWithCli`, authenticationRequest);
     console.log(`Authentication status: ${response.status} ${response.statusText}`);
     return {
-      status: response.status,
+      status: true,
+      code: response.status,
       data: response.data,
     };
   } catch (error: any) {
     console.error('Error sending deployment data to server:', error.response);
     return {
-      status: error.response.status,
+      status: false,
+      code: error.response.status,
       data: error.response.data,
     };
   }

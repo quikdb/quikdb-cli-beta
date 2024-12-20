@@ -6,12 +6,13 @@ import validator from 'email-validator';
 
 program
   .command('config')
-  .option('-e, --email <email>', 'email for the account')
   .option('-u, --username <username>', 'username for the account')
+  .option('-e, --email <email>', 'email for the account')
+  .option('-i, --identity <identity>', 'identity for the account')
   .description('Dynamically add a config entry')
   .action((options) => {
-    if (!validator.validate(options.email)) {
-      console.error('valid email is required.');
+    if (!options.identity && !options.email) {
+      console.error('email or identity is required')
       return;
     }
 
@@ -20,15 +21,21 @@ program
       return;
     }
 
-    const projectTokenRef = readlineSync.question('Please enter your authentication token: ');
+    const projectTokenRef = readlineSync.question('Please enter your project token: ');
     if (!projectTokenRef) {
       console.error('Token is required to proceed.');
       return;
     }
-
+    
     fs.writeFileSync(Tools.CONFIG_FILE, '');
 
-    Tools.appendToConfigFile('email', options.email);
+    if (validator.validate(options.email)) {
+      Tools.appendToConfigFile('email', options.email);
+    } else if (options.identity) {
+      Tools.appendToConfigFile('identity', options.identity);
+    }
+
     Tools.appendToConfigFile('username', options.username);
     Tools.appendToConfigFile('projectTokenRef', projectTokenRef);
+    console.log('config success!')
   });
