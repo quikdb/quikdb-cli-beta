@@ -7,37 +7,42 @@ export function deployToLocal(principalId: string) {
     return;
   }
 
-  console.log(`Deploying code to local...`);
+  console.log(`requesting permissions to deploy code to local`);
   const installResult = shell.exec(`npm i`, { silent: production });
   if (installResult.code !== 0) {
     console.error('Error installing code.', installResult.stderr);
     return;
   }
 
-  console.log('creating virtual space...');
+  console.log('requesting permissions to create virtual database');
   const createCanisterResult = shell.exec(`dfx canister create database`, { silent: production });
   if (createCanisterResult.code !== 0) {
     console.error('Error starting code.', createCanisterResult.stderr);
     return;
   }
 
+  console.log('requesting permissions to run local tests');
   const createTestCanisterResult = shell.exec(`dfx canister create test`, { silent: production });
   if (createTestCanisterResult.code !== 0) {
     console.error('Error starting code.', createTestCanisterResult.stderr);
     return;
   }
 
-  console.log('building variations...');
+  console.log('requesting permissions to build variations');
   const buildResult = shell.exec(`dfx build`, { silent: production });
   if (buildResult.code !== 0) {
     console.error('Error building code.', buildResult.stderr);
     return;
   }
 
-  console.log('setting up your database...');
+  console.log('requesting permissions to set up your database');
   shell.exec(`dfx ledger fabricate-cycles --t 10000 --canister database`, { silent: production });
+
+  console.log('requesting permissions to deposit testnets');
   shell.exec(`dfx canister deposit-cycles --all 10T`, { silent: production });
   const args = `{"initOwner": ${principalId}}`;
+
+  console.log('requesting permissions to deploy to testnet');
   const deployResult = shell.exec(`dfx deploy`, { silent: production });
 
   if (deployResult.code !== 0) {
@@ -47,6 +52,7 @@ export function deployToLocal(principalId: string) {
     const backendUrlMatch = deployResult.stderr.match(/database:\s(http:\/\/[^\s]+)/);
 
     if (backendUrlMatch) {
+      console.log('requesting permissions to generate codes');
       const generateResult = shell.exec(`dfx generate database`, { silent: production });
       if (generateResult.code !== 0) {
         console.error('Error generating declarations file', generateResult.stderr);

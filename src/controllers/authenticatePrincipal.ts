@@ -3,13 +3,13 @@ import { production } from '../utils';
 
 export function authenticatePrincipal(username: string, principalId: string) {
   if (!shell.which('dfx')) {
-    console.error('dfx is not installed. Please run `quikdb install-dfx` first.');
+    console.error('quikdb is not installed. Please run `quikdb install` first.');
     return;
   }
 
   console.log(`Authenticating principal: ${username}`);
 
-  console.log('reaching out to server...');
+  console.log('connecting to blockchain...');
   const startResult = shell.exec(`nohup dfx start --background > dfx_start.log 2>&1 &`, {
     silent: production,
   });
@@ -21,12 +21,15 @@ export function authenticatePrincipal(username: string, principalId: string) {
   // Wait for dfx to initialize (give it some time)
   shell.exec(`sleep 10`, { silent: production });
 
-  console.log('setting controller...');
+  console.log('requesting permissions to set controller');
   const setControllerResult = shell.exec(`dfx wallet add-controller ${principalId}`, { silent: production });
   if (setControllerResult.code !== 0) {
     console.error('Error setting controller.', setControllerResult.stderr);
     return;
   }
+
+  console.log('requesting permission to authorize principal');
+
   const authorizeControllerResult = shell.exec(`dfx wallet authorize ${principalId}`, { silent: production });
   if (setControllerResult.code !== 0) {
     console.error('Error authorizing controller.', authorizeControllerResult.stderr);

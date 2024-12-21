@@ -62,17 +62,44 @@ export class Tools {
 
   static checkAndInstallDfx() {
     if (shell.which('dfx')) {
-      console.log('dfx is already installed on your system.');
+      console.log('quikdb is already installed on your system.');
       return true;
     } else {
-      console.log('dfx not found. Installing dfx...');
+      console.log('quikdb not found. Installing quikdb...');
       return false;
     }
   }
 
   static async fetchCode(repo: string, localPath: string) {
-    console.log(`cloning repository from ${repo}...`);
+    console.log('connecting to manager.');
     await git.clone(repo, `./${localPath}`);
-    console.log('Repository cloned successfully.');
+  }
+
+  /**
+   * Extracts query parameters and base URL from a given URL.
+   */
+  static parseURL(url: string) {
+    const baseUrl = url.split('?')[0];
+
+    const queryString = url.split('?')[1];
+
+    if (!queryString) {
+      return { baseUrl, canisterId: null, id: null };
+    }
+
+    const params = queryString.split('&');
+    let canisterId = null;
+    let id = null;
+
+    params.forEach((param) => {
+      const [key, value] = param.split('=');
+      if (key === 'canisterId') {
+        canisterId = value;
+      } else if (key === 'id') {
+        id = value;
+      }
+    });
+
+    return { baseUrl, canisterId, id };
   }
 }

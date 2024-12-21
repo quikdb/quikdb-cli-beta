@@ -16,7 +16,7 @@ export async function getPrincipal(username: string): Promise<
   }
 > {
   if (!shell.which('dfx')) {
-    console.error('dfx is not installed. Please run `quikdb install-dfx` first.');
+    console.error('quikdb is not installed. Please run `quikdb install` first.');
     return { status: false };
   }
 

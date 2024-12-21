@@ -119,17 +119,15 @@ program
       }
 
       const payload = JSON.stringify({
-        id: auth.data.data.projectId,
+        id: auth.data.data.project._id,
       });
 
       const encryptionResponse  = await encryptUserData(payload, projectTokenRef);
 
-      console.log({ encryptionResponse: encryptionResponse.data.encryptedData });
-
       const projectId = encryptionResponse.data.encryptedData;
       const token = auth.data?.data?.accessToken;
 
-      shell.cd('../')
+      shell.cd('../');
 
       const folderToZip = 'quikdb';
       const zipFileName = 'dist.zip';  
@@ -139,14 +137,25 @@ program
       const result = shell.exec(zipCommand, { silent: production });
 
       if (result.code === 0) {
-        console.log(`Folder successfully zipped to ${zipFileName}`);
+        console.log('packaging success!');
       } else {
-        console.error('Error zipping folder:', result.stderr);
+        console.error('packaging failed!');
       }
 
       const filePath = path.join(__dirname, '../../temp/dist.zip');
 
       await uploadProjectCode(projectId, token, filePath);
+
+      const canisterDetails = Tools.parseURL(canisterUrl);
+
+      const canisterPayload = {
+        name: auth.data.data.project.name,
+        type: auth.data.data.project.databaseVersion,
+        url: canisterDetails.baseUrl,
+        owner: auth.data.data.project.owner,
+        canisterId: canisterDetails.canisterId,
+        controllers: [principalId],
+      };
     } else {
       console.log('No configuration file found.');
     }

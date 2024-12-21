@@ -22,6 +22,8 @@ export async function uploadProjectCode(projectId: string, token: string, filePa
       },
     });
 
+    console.log('file upload success');
+
     return {
       status: LogStatus.SUCCESS,
       code: StatusCode.OK,
