@@ -25,9 +25,9 @@
     "lint:fix": "prettier --write .",
     "coverage": "yarn node --experimental-vm-modules $(yarn bin jest) --coverage jest --testPathPattern=unit",
     "start": "node dist/index.js",
-    "pub:p": "npm run push && npm run build && npm version patch && npm run push && git push --tags && npm publish --access public",
-    "pub:mi": "npm run push && npm run build && npm version minor && npm run push && git push --tags && npm publish --access public",
-    "pub:mj": "npm run push && npm run build && npm version major && npm run push && git push --tags && npm publish --access public"
+    "pub:p": "npm run push && npm run build && npm version patch && npm run push && npm publish --access public",
+    "pub:mi": "npm run push && npm run build && npm version minor && npm run push && npm publish --access public",
+    "pub:mj": "npm run push && npm run build && npm version major && npm run push && npm publish --access public"
   },
   "lint-staged": {
     "*.{js,ts,json,md,yaml}": [
