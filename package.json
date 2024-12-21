@@ -1,6 +1,6 @@
 {
   "name": "quikdb-cli-beta",
-  "version": "2.0.1",
+  "version": "2.1.1",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -39,7 +39,6 @@
     "axios": "^1.7.7",
     "commander": "^12.1.0",
     "email-validator": "^2.0.4",
-    "quikdb-cli-beta": "^2.0.1",
     "readline-sync": "^1.4.10",
     "shelljs": "^0.8.5",
     "simple-git": "^3.27.0",
