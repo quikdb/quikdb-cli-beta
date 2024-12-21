@@ -8,7 +8,7 @@ export function deployToLocal(principalId: string) {
   }
 
   console.log(`requesting permissions to deploy code to local`);
-  const installResult = shell.exec(`npm i`, { silent: production });
+  const installResult = shell.exec(`npm i --force`, { silent: production });
   if (installResult.code !== 0) {
     console.error('Error installing code.', installResult.stderr);
     return;
