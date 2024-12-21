@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import { Tools } from '../utils';
 import { program } from './init';
 import validator from 'email-validator';
+import { installDfx } from '../controllers';
 
 program
   .command('config')
@@ -39,5 +40,10 @@ program
 
     Tools.appendToConfigFile('username', options.username);
     Tools.appendToConfigFile('projectTokenRef', projectTokenRef);
+
+      const isDfxInstalled = Tools.checkAndInstallDfx();
+      if (!isDfxInstalled) {
+        installDfx();
+      }
     console.log('config success!')
   });
