@@ -26,6 +26,8 @@ program
       console.error('Token is required to proceed.');
       return;
     }
+
+    Tools.ensureConfigDirectory()
     
     fs.writeFileSync(Tools.CONFIG_FILE, '');
 
