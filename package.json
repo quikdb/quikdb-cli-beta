@@ -1,6 +1,6 @@
 {
   "name": "quikdb-cli-beta",
-  "version": "2.1.2",
+  "version": "2.3.3",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -24,7 +24,6 @@
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",
     "coverage": "yarn node --experimental-vm-modules $(yarn bin jest) --coverage jest --testPathPattern=unit",
-    "postinstall": "husky install",
     "start": "node dist/index.js"
   },
   "lint-staged": {
@@ -39,7 +38,6 @@
     "axios": "^1.7.7",
     "commander": "^12.1.0",
     "email-validator": "^2.0.4",
-    "quikdb-cli-beta": "^2.1.1",
     "readline-sync": "^1.4.10",
     "shelljs": "^0.8.5",
     "simple-git": "^3.27.0",
