@@ -7,13 +7,6 @@ export function deployToLocal(principalId: string) {
     return;
   }
 
-  console.log(`requesting permissions to deploy code to local`);
-  const installResult = shell.exec(`npm i --force`, { silent: production });
-  if (installResult.code !== 0) {
-    console.error('Error installing code.', installResult.stderr);
-    return;
-  }
-
   console.log('requesting permissions to create virtual database');
   const createCanisterResult = shell.exec(`dfx canister create database`, { silent: production });
   if (createCanisterResult.code !== 0) {

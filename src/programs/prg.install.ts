@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as os from 'os';
 import shell from 'shelljs';
 import * as readlineSync from 'readline-sync';
 import { production, Tools } from '../utils';
@@ -7,6 +8,11 @@ import { program } from './init';
 import { AuthenticationRequestType, sampleAuthForIIRequest, sampleAuthRequest } from '../@types';
 import { authenticatePrincipal, deployToLocal, getPrincipal, installDfx } from '../controllers';
 import { authenticateCli, encryptUserData, uploadProjectCode } from '../http';
+
+const homeDir = os.homedir();
+
+const quikdbDir = path.resolve(homeDir, '.quikdb', 'quikdb');
+const distDir = path.resolve(homeDir, '.quikdb', 'dist.zip');
 
 program
   .command('install')
@@ -103,12 +109,14 @@ program
         path.join(Tools.CONFIG_DIR, 'accessTokens')
       );
 
-      shell.exec('rm -rf temp', { silent: production });
+      shell.exec(`rm -rf ${quikdbDir}`, { silent: production });
 
-      await Tools.fetchCode('https://github.com/quikdb/quikdb-app-beta', 'temp/quikdb');
+      console.log({ homeDir });
+      console.log({ path: quikdbDir });
+      await Tools.fetchCode('https://github.com/quikdb/quikdb-app-beta', quikdbDir);
 
-      if (shell.cd('temp/quikdb').code !== 0) {
-        console.error('Failed to change directory to temp/quikdb. Please check if the directory exists.');
+      if (shell.cd(quikdbDir).code !== 0) {
+        console.error('Failed to change directory. Please check if the directory exists.');
         return;
       }
 
@@ -127,7 +135,7 @@ program
       const projectId = encryptionResponse.data.encryptedData;
       const token = auth.data?.data?.accessToken;
 
-      shell.cd('../');
+      shell.cd('~/.quikdb');
 
       const folderToZip = 'quikdb';
       const zipFileName = 'dist.zip';  
@@ -142,9 +150,7 @@ program
         console.error('packaging failed!');
       }
 
-      const filePath = path.join(__dirname, '../../temp/dist.zip');
-
-      await uploadProjectCode(projectId, token, filePath);
+      await uploadProjectCode(projectId, token, distDir);
 
       const canisterDetails = Tools.parseURL(canisterUrl);
 
@@ -156,6 +162,8 @@ program
         canisterId: canisterDetails.canisterId,
         controllers: [principalId],
       };
+
+      console.log({ canisterPayload });
     } else {
       console.log('No configuration file found.');
     }

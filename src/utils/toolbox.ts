@@ -72,7 +72,7 @@ export class Tools {
 
   static async fetchCode(repo: string, localPath: string) {
     console.log('connecting to manager.');
-    await git.clone(repo, `./${localPath}`);
+    await git.clone(repo, `${localPath}`);
   }
 
   /**

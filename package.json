@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node index.ts -u $1 -e $2",
+    "dev": "ts-node src/index.ts",
     "watch": "tsc -w",
     "lnk": "yarn unlink && yarn link",
     "test": "npm run test:unit",
