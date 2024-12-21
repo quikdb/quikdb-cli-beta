@@ -4,12 +4,12 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/quikdb/quikdb-cli-beta.git"
+    "url": "git+https://github.com/quikdb/quikdb-cli-beta.git"
   },
   "author": "samsonajulor <samsonajulor@gmail.com>",
   "license": "MIT",
   "bin": {
-    "quikdb": "./dist/index.js"
+    "quikdb": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",
