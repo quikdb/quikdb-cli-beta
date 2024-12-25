@@ -2,6 +2,7 @@
   "name": "quikdb-cli-beta",
   "version": "3.1.0",
   "main": "index.js",
+  "types": "index.d.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/quikdb/quikdb-cli-beta.git"
