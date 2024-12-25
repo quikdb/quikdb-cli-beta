@@ -1,10 +1,16 @@
 export type AuthenticationRequestType = {
   email?: string;
   password?: string;
-  principalId: string;
+  principalId?: string;
   identity?: string;
   username: string;
   projectTokenRef: string;
+};
+
+export type AccessTokenType = {
+  accessToken: string;
+  url: string;
+  canisterId: string;
 };
 
 export const sampleAuthRequest = {

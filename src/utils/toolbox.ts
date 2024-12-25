@@ -21,7 +21,7 @@ export class Tools {
   static appendToConfigFile(key: string, value: string, filePath?: string) {
     this.ensureConfigDirectory();
 
-    const configEntry = `${key}: ${value}\n`;
+    const configEntry = `${key}& ${value}\n`;
 
     try {
       if (filePath) {
@@ -42,7 +42,7 @@ export class Tools {
 
     lines.forEach((line: string) => {
       if (line.trim()) {
-        const [key, value] = line.split(':').map((str: string) => str.trim());
+        const [key, value] = line.split('&').map((str: string) => str.trim());
         if (key && value) {
           configJson[key] = value;
         }
@@ -84,12 +84,12 @@ export class Tools {
     const queryString = url.split('?')[1];
 
     if (!queryString) {
-      return { baseUrl, canisterId: null, id: null };
+      return { baseUrl, canisterId: '', id: '' };
     }
 
     const params = queryString.split('&');
-    let canisterId = null;
-    let id = null;
+    let canisterId: string | null = '';
+    let id: string | null = '';
 
     params.forEach((param) => {
       const [key, value] = param.split('=');

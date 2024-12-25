@@ -68,3 +68,12 @@ export type GenericType = {
 };
 
 export type GenericAnyType = any;
+
+export enum LogLevel {
+  Error = 'error',
+  Warn = 'warn',
+  Info = 'info',
+  Verbose = 'verbose',
+  Debug = 'debug',
+  Silly = 'silly',
+}

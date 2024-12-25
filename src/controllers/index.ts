@@ -5,3 +5,4 @@ export * from './installDfx';
 export * from './deployLocal';
 export * from './deployToProduction';
 export * from './setOwner';
+export * from './client';

@@ -3,16 +3,16 @@ import { LogStatus, StatusCode, LogAction } from '../@types';
 import { SERVER_URL } from '../utils';
 
 /**
- * Function to encrypt user data by making a POST request to /a/encrypt
+ * Function to encrypt user data by making a POST request to /v/p/projectId/activate
  */
-export async function encryptUserData(payload: string, projectTokenRef: string) {
+export async function deactivateProject(projectId: string, payload: string, accessToken: string) {
   try {
     const response = await axios.post(
-      `${SERVER_URL}/a/encrypt`,
+      `${SERVER_URL}/v/p/${projectId}/activate`,
       { data: payload },
       {
         headers: {
-          Authorization: projectTokenRef,
+          Authorization: accessToken,
           'Content-Type': 'application/json',
         },
       }

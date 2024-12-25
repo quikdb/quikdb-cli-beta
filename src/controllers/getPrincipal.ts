@@ -20,7 +20,7 @@ export async function getPrincipal(username: string): Promise<
     return { status: false };
   }
 
-  let principalIdResult = shell.exec(`sudo dfx identity get-principal --identity ${username}`, { silent: production });
+  let principalIdResult = shell.exec(`dfx identity get-principal --identity ${username}`, { silent: production });
   let seedPhrase: string = '';
 
   if (principalIdResult.code !== 0) {

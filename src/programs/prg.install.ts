@@ -23,7 +23,6 @@ program
 
     if (fs.existsSync(Tools.CONFIG_FILE)) {
       const configData = fs.readFileSync(Tools.CONFIG_FILE, 'utf-8');
-      console.log('Current Configuration:');
 
       const configJson = Tools.getConfigAsJson(configData);
 
@@ -100,13 +99,11 @@ program
       principal.data?.seedPhrase &&
         Tools.appendToConfigFile(
           'seedPhrase',
-          principal.data?.seedPhrase as string,
-          path.join(Tools.CONFIG_DIR, 'accessTokens')
+          principal.data?.seedPhrase as string
         );
       Tools.appendToConfigFile(
         'accessToken',
-        auth.data?.data?.accessToken,
-        path.join(Tools.CONFIG_DIR, 'accessTokens')
+        auth.data?.data?.accessToken
       );
 
       shell.exec(`rm -rf ${quikdbDir}`, { silent: production });
@@ -155,13 +152,19 @@ program
       const canisterDetails = Tools.parseURL(canisterUrl);
 
       const canisterPayload = {
-        name: auth.data.data.project.name,
-        type: auth.data.data.project.databaseVersion,
+        databaseVersion: auth.data.data.project.databaseVersion,
         url: canisterDetails.baseUrl,
-        owner: auth.data.data.project.owner,
-        canisterId: canisterDetails.canisterId,
+        canisterId: canisterDetails.id,
         controllers: [principalId],
       };
+      Tools.appendToConfigFile(
+        'canisterId',
+        canisterPayload?.canisterId
+      );
+      Tools.appendToConfigFile(
+        'url',
+        canisterPayload?.url
+      );
 
       console.log({ canisterPayload });
     } else {

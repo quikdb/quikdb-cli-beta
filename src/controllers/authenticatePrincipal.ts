@@ -10,6 +10,17 @@ export function authenticatePrincipal(username: string, principalId: string) {
   console.log(`Authenticating principal: ${username}`);
 
   console.log('connecting to blockchain...');
+  const stopResult = shell.exec(`nohup dfx stop > dfx_start.log 2>&1 &`, {
+    silent: production,
+  });
+  if (stopResult.code !== 0) {
+    console.error('Error starting code.', stopResult.stderr);
+    return;
+  }
+
+  // Wait for dfx to initialize (give it some time)
+  shell.exec(`sleep 5`, { silent: production });
+
   const startResult = shell.exec(`nohup dfx start --background > dfx_start.log 2>&1 &`, {
     silent: production,
   });
