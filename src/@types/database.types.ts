@@ -1,5 +1,3 @@
-// src/@types/index.ts
-
 import { Principal } from "@dfinity/principal";
 
 /**
