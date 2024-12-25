@@ -16,7 +16,14 @@ export class QuikDB {
    * Constructs a new QuikDB instance.
    * @param declarationsPath - The path to the declarations directory.
    */
-  constructor(declarationsPath: string) {
+  constructor(declarationsPath: string = path.join(
+      require('os').homedir(),
+      '.quikdb',
+      'quikdb',
+      'src',
+      'declarations',
+      'database'
+    )) {
     this.declarationsPath = declarationsPath;
     this.agent = new HttpAgent(); // Will be configured later
   }

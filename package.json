@@ -1,8 +1,8 @@
 {
   "name": "quikdb-cli-beta",
   "version": "3.2.0",
-  "main": "index.js",
-  "types": "index.d.js",
+  "main": "v1/index.js",
+  "types": "v1/index.d.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/quikdb/quikdb-cli-beta.git"
@@ -10,7 +10,7 @@
   "author": "samsonajulor <samsonajulor@gmail.com>",
   "license": "MIT",
   "bin": {
-    "quikdb": "dist/index.js"
+    "quikdb": "v1/index.js"
   },
   "scripts": {
     "build": "tsc",
