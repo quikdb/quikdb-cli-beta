@@ -1,6 +1,6 @@
 {
   "name": "quikdb-cli-beta",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "main": "v1/index.js",
   "types": "v1/index.d.js",
   "repository": {
