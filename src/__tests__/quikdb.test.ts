@@ -1,5 +1,5 @@
 import path from 'path';
-import { QuikDB } from '../src/controllers';
+import { QuikDB } from '../controllers';
 import {
   Field,
   CreateSchemaArgs,
@@ -27,7 +27,7 @@ import {
   ResultStrings,
   ResultTuple,
   CanisterMethod, // Import the renamed type
-} from '../src/@types';
+} from '../@types';
 import { Principal } from '@dfinity/principal'; // Ensure this is correctly imported
 
 describe('QuikDB Class Integration Tests', () => {
