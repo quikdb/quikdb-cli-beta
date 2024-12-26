@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = __importDefault(require("path"));
-const controllers_1 = require("../controllers");
-const _types_1 = require("../@types");
+const controllers_1 = require("../src/controllers");
+const _types_1 = require("../src/@types");
 describe('QuikDB Class Integration Tests', () => {
     let quikDB;
     const schemaName = 'NewSchema';

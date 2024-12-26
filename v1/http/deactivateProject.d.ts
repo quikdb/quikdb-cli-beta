@@ -13,3 +13,4 @@ export declare function deactivateProject(projectId: string, payload: string, ac
     message: any;
     data?: undefined;
 }>;
+//# sourceMappingURL=deactivateProject.d.ts.map

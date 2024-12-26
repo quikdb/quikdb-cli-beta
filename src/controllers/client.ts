@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { AccessTokenType, CanisterMethod } from '../@types';
+import { AccessTokenType, CanisterMethod, idlFactory } from '../@types';
 import { Actor, HttpAgent } from '@dfinity/agent';
 import { Tools } from '../utils';
 
@@ -102,21 +102,21 @@ export class QuikDB {
    * Loads the type declaration (Actor) from the declarations directory.
    */
   private async loadTypeDeclaration(): Promise<void> {
-    const didPath = path.join(this.declarationsPath, 'database.did.js');
-    if (!fs.existsSync(didPath)) {
-      console.error(`did.js not found in ${this.declarationsPath}.`);
-      return;
-    }
+    // const didPath = path.join(this.declarationsPath, 'database.did.js');
+    // if (!fs.existsSync(didPath)) {
+    //   console.error(`did.js not found in ${this.declarationsPath}.`);
+    //   return;
+    // }
 
     try {
-      const module = await import(`${didPath}`);
+      // const module = await import(`${didPath}`);
 
-      const { idlFactory } = module;
+      // const { idlFactory } = module;
 
-      if (!idlFactory) {
-        console.warn(`No idlFactory found in ${didPath}.`);
-        return;
-      }
+      // if (!idlFactory) {
+      //   console.warn(`No idlFactory found in ${didPath}.`);
+      //   return;
+      // }
 
       if (!this.canisterId) {
         console.error('Canister ID is not set in configuration.');
@@ -130,7 +130,7 @@ export class QuikDB {
 
       console.log('Loaded type declaration and created Actor.');
     } catch (error) {
-      console.error(`Failed to load declaration from ${didPath}:`, error);
+      console.error(`Failed to load declaration:`, error);
     }
   }
 

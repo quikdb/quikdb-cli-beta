@@ -1,11 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CanisterMethod = void 0;
 // src/@types/index.ts
 /**
  * Enum representing all available canister method names.
  */
-var CanisterMethod;
+export var CanisterMethod;
 (function (CanisterMethod) {
     CanisterMethod["CreateSchema"] = "createSchema";
     CanisterMethod["DeleteData"] = "deleteData";
@@ -24,4 +21,5 @@ var CanisterMethod;
     CanisterMethod["GetSchema"] = "getSchema";
     CanisterMethod["InsertData"] = "insertData";
     CanisterMethod["GetRecord"] = "getRecord";
-})(CanisterMethod || (exports.CanisterMethod = CanisterMethod = {}));
+})(CanisterMethod || (CanisterMethod = {}));
+//# sourceMappingURL=database.types.js.map

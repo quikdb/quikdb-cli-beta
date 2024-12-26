@@ -23,3 +23,4 @@ export declare const sampleAuthForIIRequest: {
     username: string;
     projectTokenRef: string;
 };
+//# sourceMappingURL=auth.types.d.ts.map
