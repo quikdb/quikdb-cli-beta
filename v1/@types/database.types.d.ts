@@ -189,4 +189,3 @@ export declare enum CanisterMethod {
     InsertData = "insertData",
     GetRecord = "getRecord"
 }
-//# sourceMappingURL=database.types.d.ts.map

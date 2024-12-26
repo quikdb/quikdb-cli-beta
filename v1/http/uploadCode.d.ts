@@ -18,4 +18,3 @@ export declare function uploadProjectCode(projectId: string, token: string, file
     action?: undefined;
     data?: undefined;
 }>;
-//# sourceMappingURL=uploadCode.d.ts.map

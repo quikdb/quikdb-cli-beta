@@ -4,4 +4,3 @@ export declare function authenticateCli(authenticationRequest: AuthenticationReq
     code: any;
     data: any;
 }>;
-//# sourceMappingURL=authenticateCli.d.ts.map

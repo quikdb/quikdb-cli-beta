@@ -109,6 +109,7 @@
   },
   "exclude": [
     "node_modules",
+    "tests",
     "jest.**.ts",
     "./node_modules",
     "./node_modules/*",

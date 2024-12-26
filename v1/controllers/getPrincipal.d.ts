@@ -8,4 +8,3 @@ export declare function getPrincipal(username: string): Promise<{
         seedPhrase: string;
     };
 }>;
-//# sourceMappingURL=getPrincipal.d.ts.map

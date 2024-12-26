@@ -54,4 +54,3 @@ export declare class QuikDB {
      */
     callCanisterMethod<T>(methodName: CanisterMethod, args: any[]): Promise<T>;
 }
-//# sourceMappingURL=client.d.ts.map

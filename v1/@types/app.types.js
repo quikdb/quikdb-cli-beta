@@ -1,4 +1,7 @@
-export var StatusCode;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LogLevel = exports.LogStatus = exports.LogAction = exports.LogUsers = exports.StatusCode = void 0;
+var StatusCode;
 (function (StatusCode) {
     StatusCode[StatusCode["OK"] = 200] = "OK";
     StatusCode[StatusCode["CREATED"] = 201] = "CREATED";
@@ -10,8 +13,8 @@ export var StatusCode;
     StatusCode[StatusCode["ALREADY_EXISTS"] = 409] = "ALREADY_EXISTS";
     StatusCode[StatusCode["NOT_FOUND"] = 404] = "NOT_FOUND";
     StatusCode[StatusCode["INTERNAL_SERVER_ERROR"] = 500] = "INTERNAL_SERVER_ERROR";
-})(StatusCode || (StatusCode = {}));
-export var LogUsers;
+})(StatusCode || (exports.StatusCode = StatusCode = {}));
+var LogUsers;
 (function (LogUsers) {
     LogUsers["USER"] = "user.service";
     LogUsers["WEBHOOK"] = "webhook.service";
@@ -20,8 +23,8 @@ export var LogUsers;
     LogUsers["TRANSACTION"] = "transaction.service";
     LogUsers["PAYPAL"] = "paypal.service";
     LogUsers["STRIPE"] = "stripe.service";
-})(LogUsers || (LogUsers = {}));
-export var LogAction;
+})(LogUsers || (exports.LogUsers = LogUsers = {}));
+var LogAction;
 (function (LogAction) {
     LogAction["CREATE"] = "create";
     LogAction["ENCRYPT_DATA"] = "encrypt_data";
@@ -57,13 +60,13 @@ export var LogAction;
     LogAction["ERROR"] = "error";
     LogAction["CREATE_PAYPAL_ORDER"] = "create_paypal_order";
     LogAction["CAPTURE_PAYPAL_ORDER"] = "capture_paypal_order";
-})(LogAction || (LogAction = {}));
-export var LogStatus;
+})(LogAction || (exports.LogAction = LogAction = {}));
+var LogStatus;
 (function (LogStatus) {
     LogStatus["SUCCESS"] = "success";
     LogStatus["FAIL"] = "fail";
-})(LogStatus || (LogStatus = {}));
-export var LogLevel;
+})(LogStatus || (exports.LogStatus = LogStatus = {}));
+var LogLevel;
 (function (LogLevel) {
     LogLevel["Error"] = "error";
     LogLevel["Warn"] = "warn";
@@ -71,5 +74,4 @@ export var LogLevel;
     LogLevel["Verbose"] = "verbose";
     LogLevel["Debug"] = "debug";
     LogLevel["Silly"] = "silly";
-})(LogLevel || (LogLevel = {}));
-//# sourceMappingURL=app.types.js.map
+})(LogLevel || (exports.LogLevel = LogLevel = {}));

@@ -13,4 +13,3 @@ export declare function activateProject(projectId: string, payload: string, acce
     message: any;
     data?: undefined;
 }>;
-//# sourceMappingURL=activateProject.d.ts.map

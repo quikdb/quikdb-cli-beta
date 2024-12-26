@@ -18,4 +18,3 @@ export declare function downloadProjectCode(projectId: string, token: string, ou
     message: any;
     data?: undefined;
 }>;
-//# sourceMappingURL=downloadCode.d.ts.map

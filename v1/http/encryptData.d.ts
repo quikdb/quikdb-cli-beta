@@ -13,4 +13,3 @@ export declare function encryptUserData(payload: string, projectTokenRef: string
     message: any;
     data?: undefined;
 }>;
-//# sourceMappingURL=encryptData.d.ts.map
