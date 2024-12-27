@@ -5,6 +5,7 @@ import { Principal } from "@dfinity/principal";
  */
 export type Field = {
   name: string;
+  unique: boolean;
   fieldType: string;
 };
 
@@ -169,7 +170,7 @@ export type GetSchemaArgs = [string];
  * @param schemaName - The name of the schema into which data will be inserted.
  * @param record - The record data to be inserted.
  */
-export type InsertDataArgs = [string, DBRecord];
+export type CreateRecordDataArgs = [string, DBRecord];
 
 /**
  * Arguments for the `getRecord` function.
@@ -178,14 +179,13 @@ export type InsertDataArgs = [string, DBRecord];
  */
 export type GetRecordArgs = [string, string];
 
-// src/@types/index.ts
-
 /**
  * Enum representing all available canister method names.
  */
 export enum CanisterMethod {
+  CreateRecordData = 'createRecordData',
   CreateSchema = 'createSchema',
-  DeleteData = 'deleteData',
+  DeleteRecord = 'deleteRecord',
   DeleteSchema = 'deleteSchema',
   GetAllRecords = 'getAllRecords',
   UpdateData = 'updateData',
@@ -199,6 +199,5 @@ export enum CanisterMethod {
   ListSchemas = 'listSchemas',
   NoOfSchema = 'noOfSchema',
   GetSchema = 'getSchema',
-  InsertData = 'insertData',
   GetRecord = 'getRecord',
 }

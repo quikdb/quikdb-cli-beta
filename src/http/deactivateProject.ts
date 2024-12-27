@@ -25,9 +25,6 @@ export async function deactivateProject(projectId: string, payload: string, acce
       data: response.data.data,
     };
   } catch (error: any) {
-    // Handle errors and return a structured response
-    console.error('Error encrypting user data:', error.response?.data || error.message);
-
     return {
       status: LogStatus.FAIL,
       code: error.response?.status || 500,

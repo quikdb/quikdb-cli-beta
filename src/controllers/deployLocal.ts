@@ -29,11 +29,11 @@ export function deployToLocal(principalId: string) {
   }
 
   console.log('requesting permissions to set up your database');
-  shell.exec(`dfx ledger fabricate-cycles --t 10000 --canister database`, { silent: production });
+  shell.exec(`dfx ledger fabricate-cycles --t 1000000 --canister database`, { silent: production });
+  shell.exec(`dfx ledger fabricate-cycles --t 1000000 --canister test`, { silent: production });
 
   console.log('requesting permissions to deposit testnets');
   shell.exec(`dfx canister deposit-cycles --all 10T`, { silent: production });
-  const args = `{"initOwner": ${principalId}}`;
 
   console.log('requesting permissions to deploy to testnet');
   const deployResult = shell.exec(`dfx deploy`, { silent: production });

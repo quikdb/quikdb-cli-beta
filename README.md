@@ -1,7 +1,5 @@
 # quikdb-cli-beta
 
-Here's a step-by-step tutorial based on the steps you took to resolve the issue of `quikdb` not being found in your terminal:
-
 ### Step-by-Step Guide to Resolving `quikdb` Not Found Issue
 
 1. **Verify Package Installation:**

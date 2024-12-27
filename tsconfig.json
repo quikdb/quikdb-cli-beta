@@ -110,6 +110,7 @@
   "exclude": [
     "node_modules",
     "tests",
+    "./tests/*",
     "jest.**.ts",
     "./node_modules",
     "./node_modules/*",

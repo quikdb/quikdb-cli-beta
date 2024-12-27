@@ -7,7 +7,7 @@ import { production, Tools } from '../utils';
 import { program } from './init';
 import { AuthenticationRequestType, sampleAuthForIIRequest, sampleAuthRequest } from '../@types';
 import { authenticatePrincipal, deployToLocal, getPrincipal, installDfx } from '../controllers';
-import { authenticateCli, encryptUserData, uploadProjectCode } from '../http';
+import { activateProject, authenticateCli, encryptUserData, uploadProjectCode } from '../http';
 
 const homeDir = os.homedir();
 
@@ -97,14 +97,8 @@ program
       if (!principalAuth) return;
 
       principal.data?.seedPhrase &&
-        Tools.appendToConfigFile(
-          'seedPhrase',
-          principal.data?.seedPhrase as string
-        );
-      Tools.appendToConfigFile(
-        'accessToken',
-        auth.data?.data?.accessToken
-      );
+        Tools.appendToConfigFile('seedPhrase', principal.data?.seedPhrase as string, 'seedPhrase');
+      Tools.appendToConfigFile('accessToken', auth.data?.data?.accessToken, 'accessToken');
 
       shell.exec(`rm -rf ${quikdbDir}`, { silent: production });
 
@@ -123,13 +117,13 @@ program
         return;
       }
 
-      const payload = JSON.stringify({
+      const projectIdPayload = JSON.stringify({
         id: auth.data.data.project._id,
       });
 
-      const encryptionResponse  = await encryptUserData(payload, projectTokenRef);
+      const projectIdEncryptionResponse  = await encryptUserData(projectIdPayload, projectTokenRef);
 
-      const projectId = encryptionResponse.data.encryptedData;
+      const encryptedProjectId = projectIdEncryptionResponse.data.encryptedData;
       const token = auth.data?.data?.accessToken;
 
       shell.cd('~/.quikdb');
@@ -147,7 +141,7 @@ program
         console.error('packaging failed!');
       }
 
-      await uploadProjectCode(projectId, token, distDir);
+      await uploadProjectCode(encryptedProjectId, token, distDir);
 
       const canisterDetails = Tools.parseURL(canisterUrl);
 
@@ -159,14 +153,28 @@ program
       };
       Tools.appendToConfigFile(
         'canisterId',
-        canisterPayload?.canisterId
+        canisterPayload?.canisterId,
+        'canisterId'
       );
       Tools.appendToConfigFile(
         'url',
-        canisterPayload?.url
+        canisterPayload?.url,
+        'url',
       );
 
-      console.log({ canisterPayload });
+      const canisterEncryptionResponse = await encryptUserData(JSON.stringify(canisterPayload), projectTokenRef);
+
+      const encryptedCanisterPayload = canisterEncryptionResponse.data.encryptedData;
+
+      console.log({ encryptedCanisterPayload });
+
+      const activateProjectResponse = await activateProject(
+        encryptedProjectId,
+        encryptedCanisterPayload,
+        token
+      );
+
+      console.log({ activateProjectResponse: activateProjectResponse.message });
     } else {
       console.log('No configuration file found.');
     }

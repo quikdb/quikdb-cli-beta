@@ -8,6 +8,9 @@ const git = simpleGit();
 export class Tools {
   static CONFIG_DIR = path.join((process.env.HOME || process.env.USERPROFILE) as string, '.quikdb');
   static CONFIG_FILE = path.join(this.CONFIG_DIR, 'config');
+  static CANISTER_FILE = path.join(this.CONFIG_DIR, 'canisterId');
+  static URL_FILE = path.join(this.CONFIG_DIR, 'url');
+  static TOKEN_FILE = path.join(this.CONFIG_DIR, 'accessToken');
 
   constructor() {}
 
@@ -25,7 +28,7 @@ export class Tools {
 
     try {
       if (filePath) {
-        fs.writeFileSync(filePath, configEntry);
+        fs.writeFileSync(path.join(this.CONFIG_DIR, filePath), configEntry);
         return;
       }
       fs.appendFileSync(this.CONFIG_FILE, configEntry);
