@@ -324,6 +324,17 @@ describe('QuikDB Class Integration Tests', () => {
       };
 
       await quikDB.callCanisterMethod(CanisterMethod.CreateRecordData, [schemaName, record1]);
+
+      const record2: DBRecord = {
+        id: 'user2',
+        fields: [
+          ['email', 'user2@example.com'],
+          ['name', 'active'],
+          ['age', '30'],
+        ],
+      };
+
+      await quikDB.callCanisterMethod(CanisterMethod.CreateRecordData, [schemaName, record2]);
     }, 10000);
 
     afterAll(async () => {
