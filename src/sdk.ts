@@ -10,7 +10,7 @@ export {
   Schema,
   DeleteSchemaArgs,
   ListSchemasArgs,
-  InsertDataArgs,
+  CreateRecordDataArgs,
   GetRecordArgs,
   GetAllRecordsArgs,
   UpdateDataArgs,
